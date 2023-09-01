@@ -3,6 +3,7 @@ import { z } from 'zod'
 import CreateEmployeeService from '../services/CreateEmployeeService'
 import GetEmployeeService from '../services/GetEmployeeService'
 import UpdateEmployeeService from '../services/UpdateEmployeeService'
+import DeleteEmployeeService from '../services/DeleteEmployeeService'
 
 class EmployeeController {
   async create(req: Request, res: Response) {
@@ -66,6 +67,18 @@ class EmployeeController {
       email,
       password,
     })
+
+    return res.status(200).json(employee)
+  }
+
+  async delete(req: Request, res: Response) {
+    const EmployeeSchema = z.object({
+      id: z.string().cuid().nonempty(),
+    })
+
+    const { id } = EmployeeSchema.parse(req.params)
+
+    const employee = await DeleteEmployeeService.execute({ id })
 
     return res.status(200).json(employee)
   }
