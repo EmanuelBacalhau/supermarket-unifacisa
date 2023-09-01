@@ -13,6 +13,7 @@ class EmployeeRouter {
     this.router.post('/employees/register', EmployeeController.create)
     this.router.get('/employees/:id', EmployeeController.show)
     this.router.put('/employees/:id', EmployeeController.update)
+    this.router.delete('/employees/:id', EmployeeController.delete)
   }
 
   public get getRouter() {
