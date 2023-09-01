@@ -4,8 +4,15 @@ import CreateEmployeeService from '../services/CreateEmployeeService'
 import GetEmployeeService from '../services/GetEmployeeService'
 import UpdateEmployeeService from '../services/UpdateEmployeeService'
 import DeleteEmployeeService from '../services/DeleteEmployeeService'
+import ListEmployeeService from '../services/ListEmployeeService'
 
 class EmployeeController {
+  async index(req: Request, res: Response) {
+    const employees = await ListEmployeeService.execute()
+
+    return res.status(200).json(employees)
+  }
+
   async create(req: Request, res: Response) {
     const EmployeeSchema = z.object({
       name: z.string().nonempty(),
