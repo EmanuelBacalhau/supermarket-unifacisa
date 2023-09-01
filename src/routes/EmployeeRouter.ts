@@ -12,6 +12,7 @@ class EmployeeRouter {
   private setup() {
     this.router.post('/employees/register', EmployeeController.create)
     this.router.get('/employees/:id', EmployeeController.show)
+    this.router.put('/employees/:id', EmployeeController.update)
   }
 
   public get getRouter() {
