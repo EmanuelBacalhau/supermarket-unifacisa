@@ -1,5 +1,5 @@
-import prisma from '../../config/Prisma'
-import { AppError } from '../../errors/AppError'
+import prisma from '../../../config/Prisma'
+import { AppError } from '../../../errors/AppError'
 
 interface IRequest {
   id: string

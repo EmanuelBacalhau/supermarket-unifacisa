@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import EmployeeController from '../modules/controllers/EmployeeController'
+import EmployeeController from '../modules/employee/controllers/EmployeeController'
 
 class EmployeeRouter {
   private router: Router
