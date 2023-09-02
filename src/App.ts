@@ -4,6 +4,7 @@ import EmployeeRouter from './routes/EmployeeRouter'
 
 import { AppError } from './errors/AppError'
 import { ZodError } from 'zod'
+import ClientRouter from './routes/ClientRouter'
 
 class App {
   private app: Application
@@ -16,7 +17,7 @@ class App {
   }
 
   private setupRouter() {
-    this.app.use('/api', EmployeeRouter.getRouter)
+    this.app.use('/api', [EmployeeRouter.getRouter, ClientRouter.getRouter])
   }
 
   public listen() {
