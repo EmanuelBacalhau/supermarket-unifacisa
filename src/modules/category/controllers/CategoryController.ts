@@ -3,6 +3,7 @@ import { z } from 'zod'
 import CreateCategoryService from '../services/CreateCategoryService'
 import GetCategoryService from '../services/GetCategoryService'
 import UpdateCategoryService from '../services/UpdateCategoryService'
+import DeleteCategoryService from '../services/DeleteCategoryService'
 
 class CategoryController {
   async create(req: Request, res: Response) {
@@ -42,6 +43,18 @@ class CategoryController {
     const { name } = CategorySchema.parse(req.body)
 
     const category = await UpdateCategoryService.execute({ id, name })
+
+    return res.status(200).json(category)
+  }
+
+  async delete(req: Request, res: Response) {
+    const FindSchema = z.object({
+      id: z.string().cuid(),
+    })
+
+    const { id } = FindSchema.parse(req.params)
+
+    const category = await DeleteCategoryService.execute({ id })
 
     return res.status(200).json(category)
   }
