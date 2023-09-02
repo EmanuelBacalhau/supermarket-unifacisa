@@ -4,8 +4,14 @@ import CreateCategoryService from '../services/CreateCategoryService'
 import GetCategoryService from '../services/GetCategoryService'
 import UpdateCategoryService from '../services/UpdateCategoryService'
 import DeleteCategoryService from '../services/DeleteCategoryService'
+import ListCategoryService from '../services/ListCategoryService'
 
 class CategoryController {
+  async index(req: Request, res: Response) {
+    const categories = await ListCategoryService.execute()
+    return res.status(200).json(categories)
+  }
+
   async create(req: Request, res: Response) {
     const CategorySchema = z.object({
       name: z.string().nonempty(),
