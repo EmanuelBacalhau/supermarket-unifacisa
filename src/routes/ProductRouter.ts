@@ -11,6 +11,7 @@ class ProductRouter {
 
   private setup() {
     this.router.post('/products/register', ProductController.create)
+    this.router.get('/products/:id', ProductController.show)
   }
 
   public get getRouter() {
