@@ -1,12 +1,13 @@
 import express, { Application, NextFunction, Request, Response } from 'express'
 import 'express-async-errors'
-import EmployeeRouter from './routes/EmployeeRouter'
 
 import { AppError } from './errors/AppError'
 import { ZodError } from 'zod'
 import ClientRouter from './routes/ClientRouter'
 import CategoryRouter from './routes/CategoryRouter'
 import ProductRouter from './routes/ProductRouter'
+import OrderRouter from './routes/OrderRouter'
+import EmployeeRouter from './routes/EmployeeRouter'
 
 class App {
   private app: Application
@@ -24,6 +25,7 @@ class App {
       ClientRouter.getRouter,
       CategoryRouter.getRouter,
       ProductRouter.getRouter,
+      OrderRouter.getRouter,
     ])
   }
 
