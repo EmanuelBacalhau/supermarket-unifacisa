@@ -13,6 +13,7 @@ class ProductRouter {
     this.router.post('/products/register', ProductController.create)
     this.router.get('/products/:id', ProductController.show)
     this.router.put('/products/:id', ProductController.update)
+    this.router.delete('/products/:id', ProductController.delete)
   }
 
   public get getRouter() {
