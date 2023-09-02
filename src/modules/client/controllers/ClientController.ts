@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { z } from 'zod'
 import CreateClientService from '../services/CreateClientService'
 import GetClienteService from '../services/GetClienteService'
+import UpdateClientService from '../services/UpdateClientService'
 
 class ClientController {
   async create(req: Request, res: Response) {
@@ -31,6 +32,40 @@ class ClientController {
     const { id } = ClientSchema.parse(req.params)
 
     const client = await GetClienteService.execute({ id })
+
+    return res.status(200).json(client)
+  }
+
+  async update(req: Request, res: Response) {
+    const FindSchema = z.object({
+      id: z.string().cuid(),
+    })
+
+    const ClientSchema = z.object({
+      name: z.string().optional(),
+      cpf: z.string().optional(),
+      birthday: z
+        .string()
+        .transform((element) => new Date(element))
+        .optional(),
+      email: z.string().optional(),
+      password: z.string().optional(),
+    })
+
+    const { id } = FindSchema.parse(req.params)
+
+    const { name, cpf, birthday, email, password } = ClientSchema.parse(
+      req.body,
+    )
+
+    const client = await UpdateClientService.execute({
+      id,
+      name,
+      birthday,
+      cpf,
+      email,
+      password,
+    })
 
     return res.status(200).json(client)
   }
