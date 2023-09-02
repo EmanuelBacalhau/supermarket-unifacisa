@@ -6,6 +6,7 @@ import { AppError } from './errors/AppError'
 import { ZodError } from 'zod'
 import ClientRouter from './routes/ClientRouter'
 import CategoryRouter from './routes/CategoryRouter'
+import ProductRouter from './routes/ProductRouter'
 
 class App {
   private app: Application
@@ -22,13 +23,14 @@ class App {
       EmployeeRouter.getRouter,
       ClientRouter.getRouter,
       CategoryRouter.getRouter,
+      ProductRouter.getRouter,
     ])
   }
 
   public listen() {
     const PORT = Number(process.env.PORT) || 3333
     this.app.listen(PORT, () => {
-      console.log('Servr started!🚀')
+      console.log('Server started!🚀')
     })
   }
 
