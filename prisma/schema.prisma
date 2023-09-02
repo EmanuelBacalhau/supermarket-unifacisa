@@ -47,12 +47,12 @@ model Category {
 model Product {
   id String @id @default(cuid()) @map("_id")
   name String
-  price String
+  price Float
   description String
   categoryId String @map("category_id")
-  barCode String @map("bar_code")
+  barCode String @map("bar_code") @unique
   manufacturingDate DateTime @map("manufacturing_date")
-  expirionDate DateTime @map("expirion_date")
+  expirationDate DateTime @map("expirion_date")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @map("updated_at") @updatedAt
 
