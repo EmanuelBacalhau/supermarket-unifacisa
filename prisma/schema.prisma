@@ -69,13 +69,13 @@ model Product {
 model Order {
   id        String   @id @default(cuid()) @map("_id")
   clientId  String   @map("client_id")
-  porductId String   @map("product_id")
+  productId String   @map("product_id")
   amount    Int
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   client  Client  @relation(fields: [clientId], references: [id])
-  product Product @relation(fields: [porductId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
 
   @@map("orders")
 }
