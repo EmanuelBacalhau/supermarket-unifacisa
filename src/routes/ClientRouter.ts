@@ -13,6 +13,7 @@ class ClientRouter {
     this.router.post('/clients/register', ClientController.create)
     this.router.get('/clients/:id', ClientController.show)
     this.router.put('/clients/:id', ClientController.update)
+    this.router.delete('/clients/:id', ClientController.delete)
   }
 
   public get getRouter() {
