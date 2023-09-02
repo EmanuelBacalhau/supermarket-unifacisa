@@ -10,6 +10,7 @@ class ClientRouter {
   }
 
   private setup() {
+    this.router.get('/clients', ClientController.index)
     this.router.post('/clients/register', ClientController.create)
     this.router.get('/clients/:id', ClientController.show)
     this.router.put('/clients/:id', ClientController.update)
