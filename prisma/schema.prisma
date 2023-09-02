@@ -28,6 +28,8 @@ model Client {
   email    String   @unique
   password String
 
+  orders Order[]
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
@@ -57,6 +59,8 @@ model Product {
   createdAt         DateTime @default(now()) @map("created_at")
   updatedAt         DateTime @default(now()) @updatedAt @map("updated_at")
 
+  orders Order[]
+
   category Category @relation(fields: [categoryId], references: [id])
 
   @@map("products")
@@ -68,6 +72,9 @@ model Order {
   porductId String   @map("product_id")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  client Client @relation(fields: [clientId], references: [id])
+  product Product @relation(fields: [porductId], references: [id])
 
   @@map("orders")
 }
