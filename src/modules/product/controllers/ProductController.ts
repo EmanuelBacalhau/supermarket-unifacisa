@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { z } from 'zod'
 import CreateProductService from '../services/CreateProductService'
+import GetProductService from '../services/GetProductService'
 
 class ProductController {
   async create(req: Request, res: Response) {
@@ -25,6 +26,18 @@ class ProductController {
     const product = await CreateProductService.execute(data)
 
     return res.status(201).json(product)
+  }
+
+  async show(req: Request, res: Response) {
+    const FindSchema = z.object({
+      id: z.string().cuid(),
+    })
+
+    const { id } = FindSchema.parse(req.params)
+
+    const product = await GetProductService.execute({ id })
+
+    return res.status(200).json(product)
   }
 }
 
