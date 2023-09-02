@@ -11,6 +11,7 @@ class CategoryRouter {
 
   private setup() {
     this.router.post('/categories/register', CategoryController.create)
+    this.router.get('/categories/:id', CategoryController.show)
   }
 
   public get getRouter() {
