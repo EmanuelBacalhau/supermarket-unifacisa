@@ -3,6 +3,7 @@ import { z } from 'zod'
 import CreateClientService from '../services/CreateClientService'
 import GetClienteService from '../services/GetClienteService'
 import UpdateClientService from '../services/UpdateClientService'
+import DeleteClientService from '../services/DeleteClientService'
 
 class ClientController {
   async create(req: Request, res: Response) {
@@ -66,6 +67,18 @@ class ClientController {
       email,
       password,
     })
+
+    return res.status(200).json(client)
+  }
+
+  async delete(req: Request, res: Response) {
+    const FindSchema = z.object({
+      id: z.string().cuid(),
+    })
+
+    const { id } = FindSchema.parse(req.params)
+
+    const client = await DeleteClientService.execute({ id })
 
     return res.status(200).json(client)
   }
