@@ -19,3 +19,16 @@ model Employee {
 
   @@map("employees")
 }
+
+model Client {
+  id String @id @default(cuid()) @map("_id")
+  name String
+  birthday DateTime
+  cpf String @unique
+  email String @unique
+  password String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@map("clients")
+}
