@@ -10,6 +10,7 @@ class ProductRouter {
   }
 
   private setup() {
+    this.router.get('/products', ProductController.index)
     this.router.post('/products/register', ProductController.create)
     this.router.get('/products/:id', ProductController.show)
     this.router.put('/products/:id', ProductController.update)
