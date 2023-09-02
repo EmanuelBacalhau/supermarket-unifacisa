@@ -4,8 +4,15 @@ import CreateClientService from '../services/CreateClientService'
 import GetClienteService from '../services/GetClienteService'
 import UpdateClientService from '../services/UpdateClientService'
 import DeleteClientService from '../services/DeleteClientService'
+import ListClientService from '../services/ListClientService'
 
 class ClientController {
+  async index(req: Request, res: Response) {
+    const clients = await ListClientService.execute()
+
+    return res.status(200).json(clients)
+  }
+
   async create(req: Request, res: Response) {
     const ClientSchema = z.object({
       name: z.string().nonempty(),
