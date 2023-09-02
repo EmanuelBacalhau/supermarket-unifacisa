@@ -3,6 +3,7 @@ import { z } from 'zod'
 import CreateProductService from '../services/CreateProductService'
 import GetProductService from '../services/GetProductService'
 import UpdateProductService from '../services/UpdateProductService'
+import DeleteProductService from '../services/DeleteProductService'
 
 class ProductController {
   async create(req: Request, res: Response) {
@@ -65,6 +66,18 @@ class ProductController {
     const data = ProductSchema.parse(req.body)
 
     const product = await UpdateProductService.execute({ id, ...data })
+
+    return res.status(200).json(product)
+  }
+
+  async delete(req: Request, res: Response) {
+    const FindSchema = z.object({
+      id: z.string().cuid(),
+    })
+
+    const { id } = FindSchema.parse(req.params)
+
+    const product = await DeleteProductService.execute({ id })
 
     return res.status(200).json(product)
   }
