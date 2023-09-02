@@ -13,6 +13,7 @@ class CategoryRouter {
     this.router.post('/categories/register', CategoryController.create)
     this.router.get('/categories/:id', CategoryController.show)
     this.router.put('/categories/:id', CategoryController.update)
+    this.router.delete('/categories/:id', CategoryController.delete)
   }
 
   public get getRouter() {
