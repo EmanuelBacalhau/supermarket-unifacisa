@@ -35,7 +35,6 @@ class App {
   ) {
     if (err instanceof AppError) {
       return res.status(err.statusCode).json({
-        status: 'error',
         message: err.message,
       })
     }

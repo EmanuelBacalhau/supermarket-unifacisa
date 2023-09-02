@@ -11,6 +11,7 @@ class ClientRouter {
 
   private setup() {
     this.router.post('/clients/register', ClientController.create)
+    this.router.get('/clients/:id', ClientController.show)
   }
 
   public get getRouter() {
