@@ -12,13 +12,13 @@ interface IRequest {
 
 class CreateClientService {
   async execute({ name, birthday, cpf, email, password }: IRequest) {
-    const userByCpf = await prisma.employee.findUnique({
+    const userByCpf = await prisma.client.findUnique({
       where: {
         cpf,
       },
     })
 
-    const userByEmail = await prisma.employee.findUnique({
+    const userByEmail = await prisma.client.findUnique({
       where: {
         email,
       },
@@ -30,7 +30,7 @@ class CreateClientService {
 
     const passwordHash = hashSync(password, 16)
 
-    const user = await prisma.employee.create({
+    const user = await prisma.client.create({
       data: {
         name,
         birthday,
