@@ -8,12 +8,12 @@ datasource db {
 }
 
 model Employee {
-  id String @id @default(cuid()) @map("_id")
-  name String
-  birthday DateTime
-  cpf String @unique
-  email String @unique
-  password String
+  id        String   @id @default(cuid()) @map("_id")
+  name      String
+  birthday  DateTime
+  cpf       String   @unique
+  email     String   @unique
+  password  String
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
@@ -21,12 +21,13 @@ model Employee {
 }
 
 model Client {
-  id String @id @default(cuid()) @map("_id")
-  name String
+  id       String   @id @default(cuid()) @map("_id")
+  name     String
   birthday DateTime
-  cpf String @unique
-  email String @unique
+  cpf      String   @unique
+  email    String   @unique
   password String
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
@@ -34,10 +35,10 @@ model Client {
 }
 
 model Category {
-  id String @id @default(cuid()) @map("_id")
-  name String @unique
+  id        String   @id @default(cuid()) @map("_id")
+  name      String   @unique
   createdAt DateTime @default(now()) @map("created_at")
-  updateAt DateTime @default(now()) @map("updated_at") @updatedAt
+  updateAt  DateTime @default(now()) @updatedAt @map("updated_at")
 
   products Product[]
 
@@ -45,18 +46,29 @@ model Category {
 }
 
 model Product {
-  id String @id @default(cuid()) @map("_id")
-  name String
-  price Float
-  description String
-  categoryId String @map("category_id")
-  barCode String @map("bar_code") @unique
+  id                String   @id @default(cuid()) @map("_id")
+  name              String
+  price             Float
+  description       String
+  categoryId        String   @map("category_id")
+  barCode           String   @unique @map("bar_code")
   manufacturingDate DateTime @map("manufacturing_date")
-  expirationDate DateTime @map("expirion_date")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @map("updated_at") @updatedAt
+  expirationDate    DateTime @map("expirion_date")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @default(now()) @updatedAt @map("updated_at")
 
   category Category @relation(fields: [categoryId], references: [id])
 
   @@map("products")
 }
+
+model Order {
+  id        String   @id @default(cuid()) @map("_id")
+  clientId  String   @map("client_id")
+  porductId String   @map("product_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@map("orders")
+}
+
