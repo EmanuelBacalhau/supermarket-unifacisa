@@ -4,8 +4,14 @@ import CreateProductService from '../services/CreateProductService'
 import GetProductService from '../services/GetProductService'
 import UpdateProductService from '../services/UpdateProductService'
 import DeleteProductService from '../services/DeleteProductService'
+import ListProductService from '../services/ListProductService'
 
 class ProductController {
+  async index(req: Request, res: Response) {
+    const products = await ListProductService.execute()
+    return res.status(200).json(products)
+  }
+
   async create(req: Request, res: Response) {
     const ProductSchema = z.object({
       name: z.string().nonempty(),
