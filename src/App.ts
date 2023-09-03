@@ -10,6 +10,7 @@ import OrderRouter from './routes/OrderRouter'
 import EmployeeRouter from './routes/EmployeeRouter'
 import PromotionRouter from './routes/PromotionRouter'
 import PromotionClientRouter from './routes/PromotionClientRouter'
+import AuthRouter from './routes/AuthRouter'
 
 class App {
   private app: Application
@@ -30,6 +31,7 @@ class App {
       OrderRouter.getRouter,
       PromotionRouter.getRouter,
       PromotionClientRouter.getRouter,
+      AuthRouter.getRouter,
     ])
   }
 
