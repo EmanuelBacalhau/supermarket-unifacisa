@@ -13,6 +13,7 @@ class OrderRouter {
     this.router.post('/orders/register', OrderController.create)
     this.router.get('/orders/:id', OrderController.show)
     this.router.put('/orders/:id', OrderController.update)
+    this.router.delete('/orders/:id', OrderController.delete)
   }
 
   public get getRouter() {
