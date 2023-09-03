@@ -83,11 +83,11 @@ model Order {
 }
 
 model Promotion {
-  id          String   @id @default(cuid()) @map("_id")
-  name        String?
-  percentage  Int
-  startDate   DateTime
-  endDate     DateTime
+  id         String   @id @default(cuid()) @map("_id")
+  name       String?
+  percentage Int
+  startDate  DateTime
+  endDate    DateTime
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
@@ -98,17 +98,17 @@ model Promotion {
 }
 
 model PromotionClient {
-  id          String   @id @default(cuid()) @map("_id")
+  id          String @id @default(cuid()) @map("_id")
   promotionId String @map("promotion_id")
-  productId String @map("product_id")
-  clientId  String @map("client_id")
+  productId   String @map("product_id")
+  clientId    String @map("client_id")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
-  client  Client  @relation(fields: [clientId], references: [id])
-  product Product @relation(fields: [productId], references: [id])
+  client    Client    @relation(fields: [clientId], references: [id])
+  product   Product   @relation(fields: [productId], references: [id])
   promotion Promotion @relation(fields: [promotionId], references: [id])
 
-  @@map("promotions_to_users")
+  @@map("promotions_to_clients")
 }
