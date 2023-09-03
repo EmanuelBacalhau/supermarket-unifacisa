@@ -18,6 +18,10 @@ class PromotionClientRouter {
       '/promotionClients/:id',
       PromotionClientController.delete,
     )
+    this.router.get(
+      '/promotionClients/:promotionId',
+      PromotionClientController.findByPromotionId,
+    )
   }
 
   public get getRouter() {
