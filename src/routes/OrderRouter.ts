@@ -10,6 +10,7 @@ class OrderRouter {
   }
 
   private setup() {
+    this.router.get('/orders', OrderController.index)
     this.router.post('/orders/register', OrderController.create)
     this.router.get('/orders/:id', OrderController.show)
     this.router.put('/orders/:id', OrderController.update)
