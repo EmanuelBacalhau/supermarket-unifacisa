@@ -1,5 +1,7 @@
 import { Router } from 'express'
 import ProductController from '../modules/product/controllers/ProductController'
+import { isAuthenticate } from '../middleware/isAuthenticate'
+import { verifyEmployee } from '../middleware/verifyEmployee'
 
 class ProductRouter {
   private router: Router
@@ -10,13 +12,30 @@ class ProductRouter {
   }
 
   private setup() {
-    this.router.get('/products', ProductController.index)
-    this.router.post('/products/register', ProductController.create)
-    this.router.get('/products/:id', ProductController.show)
-    this.router.put('/products/:id', ProductController.update)
-    this.router.delete('/products/:id', ProductController.delete)
+    this.router.get('/products', isAuthenticate, ProductController.index)
+    this.router.post(
+      '/products/register',
+      isAuthenticate,
+      verifyEmployee,
+      ProductController.create,
+    )
+    this.router.get('/products/:id', isAuthenticate, ProductController.show)
+    this.router.put(
+      '/products/:id',
+      isAuthenticate,
+      verifyEmployee,
+      ProductController.update,
+    )
+    this.router.delete(
+      '/products/:id',
+      isAuthenticate,
+      verifyEmployee,
+      ProductController.delete,
+    )
     this.router.post(
       '/products/:categoryId/discount',
+      isAuthenticate,
+      verifyEmployee,
       ProductController.discount,
     )
   }

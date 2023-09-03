@@ -1,5 +1,7 @@
 import { Router } from 'express'
 import EmployeeController from '../modules/employee/controllers/EmployeeController'
+import { isAuthenticate } from '../middleware/isAuthenticate'
+import { verifyEmployee } from '../middleware/verifyEmployee'
 
 class EmployeeRouter {
   private router: Router
@@ -10,11 +12,31 @@ class EmployeeRouter {
   }
 
   private setup() {
-    this.router.get('/employees', EmployeeController.index)
+    this.router.get(
+      '/employees',
+      isAuthenticate,
+      verifyEmployee,
+      EmployeeController.index,
+    )
     this.router.post('/employees/register', EmployeeController.create)
-    this.router.get('/employees/:id', EmployeeController.show)
-    this.router.put('/employees/:id', EmployeeController.update)
-    this.router.delete('/employees/:id', EmployeeController.delete)
+    this.router.get(
+      '/employees/:id',
+      isAuthenticate,
+      verifyEmployee,
+      EmployeeController.show,
+    )
+    this.router.put(
+      '/employees/:id',
+      isAuthenticate,
+      verifyEmployee,
+      EmployeeController.update,
+    )
+    this.router.delete(
+      '/employees/:id',
+      isAuthenticate,
+      verifyEmployee,
+      EmployeeController.delete,
+    )
   }
 
   public get getRouter() {
