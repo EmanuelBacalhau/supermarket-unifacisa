@@ -9,6 +9,7 @@ import ProductRouter from './routes/ProductRouter'
 import OrderRouter from './routes/OrderRouter'
 import EmployeeRouter from './routes/EmployeeRouter'
 import PromotionRouter from './routes/PromotionRouter'
+import PromotionClientRouter from './routes/PromotionClientRouter'
 
 class App {
   private app: Application
@@ -28,6 +29,7 @@ class App {
       ProductRouter.getRouter,
       OrderRouter.getRouter,
       PromotionRouter.getRouter,
+      PromotionClientRouter.getRouter,
     ])
   }
 
