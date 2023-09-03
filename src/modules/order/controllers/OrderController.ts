@@ -3,6 +3,7 @@ import CreateOrderService from '../services/CreateOrderService'
 import { Request, Response } from 'express'
 import GetOrderService from '../services/GetOrderService'
 import UpdateOrderService from '../services/UpdateOrderService'
+import DeleteOrderService from '../services/DeleteOrderService'
 
 class OrderController {
   async create(req: Request, res: Response) {
@@ -49,6 +50,18 @@ class OrderController {
     const { productId, clientId } = OrderSchema.parse(req.body)
 
     const order = await UpdateOrderService.execute({ id, productId, clientId })
+
+    return res.status(200).json(order)
+  }
+
+  async delete(req: Request, res: Response) {
+    const FindSchema = z.object({
+      id: z.string().cuid(),
+    })
+
+    const { id } = FindSchema.parse(req.params)
+
+    const order = await DeleteOrderService.execute({ id })
 
     return res.status(200).json(order)
   }
