@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import CreateOrderService from '../services/CreateOrderService'
 import { Request, Response } from 'express'
+import GetOrderService from '../services/GetOrderService'
 
 class OrderController {
   async create(req: Request, res: Response) {
@@ -17,6 +18,18 @@ class OrderController {
       productId,
       amount,
     })
+
+    return res.status(200).json(order)
+  }
+
+  async show(req: Request, res: Response) {
+    const FindSchema = z.object({
+      id: z.string().cuid(),
+    })
+
+    const { id } = FindSchema.parse(req.params)
+
+    const order = await GetOrderService.execute({ id })
 
     return res.status(200).json(order)
   }
