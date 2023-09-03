@@ -3,6 +3,7 @@ import { verify } from 'jsonwebtoken'
 
 interface Payload {
   id: string
+  role: string
 }
 
 export function isAuthenticate(
@@ -21,9 +22,10 @@ export function isAuthenticate(
   const JWT_SECRET = process.env.JWT_SECRET as string
 
   try {
-    const { id } = verify(token, JWT_SECRET) as Payload
+    const { id, role } = verify(token, JWT_SECRET) as Payload
 
     req.userId = id
+    req.role = role
 
     return next()
   } catch (error) {
