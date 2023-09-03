@@ -6,7 +6,7 @@ interface IRequest {
   promotionId: string
 }
 
-class CreatePromotionClient {
+class CreatePromotionClientService {
   async execute({ clientId, promotionId, productIds }: IRequest) {
     productIds.forEach(async (productId) => {
       await prisma.promotionClient.create({
@@ -24,4 +24,4 @@ class CreatePromotionClient {
   }
 }
 
-export default new CreatePromotionClient()
+export default new CreatePromotionClientService()
