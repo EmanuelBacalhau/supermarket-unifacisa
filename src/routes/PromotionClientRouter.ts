@@ -29,6 +29,11 @@ class PromotionClientRouter {
       isAuthenticate,
       PromotionClientController.findByPromotionId,
     )
+    this.router.get(
+      '/promotionClients',
+      isAuthenticate,
+      PromotionClientController.index,
+    )
   }
 
   public get getRouter() {
