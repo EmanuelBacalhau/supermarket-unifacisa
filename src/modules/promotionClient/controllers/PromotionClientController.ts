@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { z } from 'zod'
-import CreatePromotionClient from '../service/CreatePromotionClient'
+import CreatePromotionClientService from '../service/CreatePromotionClientService'
+import DeletePromotionClientService from '../service/DeletePromotionClientService'
 
 class PromotionClientController {
   async create(req: Request, res: Response) {
@@ -12,9 +13,21 @@ class PromotionClientController {
 
     const data = PromotionClientSchema.parse(req.body)
 
-    const promotionClient = await CreatePromotionClient.execute(data)
+    const promotionClient = await CreatePromotionClientService.execute(data)
 
     return res.status(201).json(promotionClient)
+  }
+
+  async delete(req: Request, res: Response) {
+    const FindSchema = z.object({
+      id: z.string().cuid().nonempty(),
+    })
+
+    const { id } = FindSchema.parse(req.params)
+
+    const promotionClient = await DeletePromotionClientService.execute({ id })
+
+    return res.status(200).json(promotionClient)
   }
 }
 
