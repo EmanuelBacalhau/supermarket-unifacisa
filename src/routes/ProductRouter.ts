@@ -15,6 +15,10 @@ class ProductRouter {
     this.router.get('/products/:id', ProductController.show)
     this.router.put('/products/:id', ProductController.update)
     this.router.delete('/products/:id', ProductController.delete)
+    this.router.post(
+      '/products/:categoryId/discount',
+      ProductController.discount,
+    )
   }
 
   public get getRouter() {
