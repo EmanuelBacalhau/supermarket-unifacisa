@@ -14,6 +14,10 @@ class PromotionClientRouter {
       '/promotionClients/register',
       PromotionClientController.create,
     )
+    this.router.delete(
+      '/promotionClients/:id',
+      PromotionClientController.delete,
+    )
   }
 
   public get getRouter() {
