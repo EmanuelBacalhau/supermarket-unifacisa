@@ -28,7 +28,8 @@ model Client {
   email    String   @unique
   password String
 
-  orders Order[]
+  orders     Order[]
+  promotions PromotionUser[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
@@ -59,7 +60,8 @@ model Product {
   createdAt         DateTime @default(now()) @map("created_at")
   updatedAt         DateTime @default(now()) @updatedAt @map("updated_at")
 
-  orders Order[]
+  orders     Order[]
+  promotions PromotionUser[]
 
   category Category @relation(fields: [categoryId], references: [id])
 
@@ -78,4 +80,23 @@ model Order {
   product Product @relation(fields: [productId], references: [id])
 
   @@map("orders")
+}
+
+model PromotionUser {
+  id          String   @id @default(cuid()) @map("_id")
+  name        String?
+  percentagem Int
+  startDate   DateTime
+  endDate     DateTime
+
+  productId String @map("product_id")
+  clientId  String @map("client_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  client  Client  @relation(fields: [clientId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  @@map("promotions_to_users")
 }
