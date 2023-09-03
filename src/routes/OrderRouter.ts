@@ -11,6 +11,7 @@ class OrderRouter {
 
   private setup() {
     this.router.post('/orders/register', OrderController.create)
+    this.router.get('/orders/:id', OrderController.show)
   }
 
   public get getRouter() {
