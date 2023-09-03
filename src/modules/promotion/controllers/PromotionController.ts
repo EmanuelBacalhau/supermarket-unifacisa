@@ -4,8 +4,14 @@ import CreatePromotionService from '../services/CreatePromotionService'
 import GetPromotionService from '../services/GetPromotionService'
 import UpdatePromotionService from '../services/UpdatePromotionService'
 import DeletePromotionService from '../services/DeletePromotionService'
+import ListPromotionService from '../services/ListPromotionService'
 
 class PromotionController {
+  async index(req: Request, res: Response) {
+    const promotions = await ListPromotionService.execute()
+    return res.status(200).json(promotions)
+  }
+
   async create(req: Request, res: Response) {
     const PromotionSchema = z.object({
       name: z.string().optional(),
