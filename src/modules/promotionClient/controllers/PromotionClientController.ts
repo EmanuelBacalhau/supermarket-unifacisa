@@ -32,7 +32,6 @@ class PromotionClientController {
 
   async create(req: Request, res: Response) {
     const PromotionClientSchema = z.object({
-      categoryId: z.string().cuid().nonempty(),
       clientId: z.string().cuid().nonempty(),
       promotionId: z.string().cuid().nonempty(),
     })

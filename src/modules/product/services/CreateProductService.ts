@@ -4,6 +4,7 @@ import { AppError } from '../../../errors/AppError'
 interface IRequest {
   name: string
   price: number
+  amount: number
   description: string
   categoryId: string
   barCode: string
@@ -15,6 +16,7 @@ class CreateProductService {
   async execute({
     name,
     price,
+    amount,
     description,
     categoryId,
     barCode,
@@ -35,6 +37,7 @@ class CreateProductService {
       data: {
         name,
         price,
+        amount,
         description,
         categoryId,
         barCode,

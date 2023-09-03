@@ -2,23 +2,12 @@ import prisma from '../../../config/Prisma'
 import { AppError } from '../../../errors/AppError'
 
 interface IRequest {
-  categoryId: string
   clientId: string
   promotionId: string
 }
 
 class CreatePromotionClientService {
-  async execute({ clientId, promotionId, categoryId }: IRequest) {
-    const categoryAlreadyExists = await prisma.category.findUnique({
-      where: {
-        id: categoryId,
-      },
-    })
-
-    if (!categoryAlreadyExists) {
-      throw new AppError('Category not found')
-    }
-
+  async execute({ clientId, promotionId }: IRequest) {
     const promotionAlreadyExists = await prisma.promotion.findUnique({
       where: {
         id: promotionId,
@@ -39,9 +28,33 @@ class CreatePromotionClientService {
       throw new AppError('Client not found')
     }
 
+    const orders = await prisma.order.findMany({
+      where: {
+        clientId,
+      },
+      select: {
+        product: {
+          select: {
+            categoryId: true,
+          },
+        },
+      },
+      orderBy: {
+        product: {
+          category: {
+            name: 'asc',
+          },
+        },
+      },
+    })
+
+    if (orders.length === 0) {
+      throw new AppError('The client does not have to buy')
+    }
+
     const productsByCategory = await prisma.product.findMany({
       where: {
-        categoryId,
+        categoryId: orders[0].product.categoryId,
       },
     })
 

@@ -20,6 +20,7 @@ class ProductController {
       price: z.number().nonnegative(),
       categoryId: z.string().cuid(),
       barCode: z.string().nonempty(),
+      amount: z.number().nonnegative(),
       manufacturingDate: z
         .string()
         .nonempty()
