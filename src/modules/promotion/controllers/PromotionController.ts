@@ -3,6 +3,7 @@ import { z } from 'zod'
 import CreatePromotionService from '../services/CreatePromotionService'
 import GetPromotionService from '../services/GetPromotionService'
 import UpdatePromotionService from '../services/UpdatePromotionService'
+import DeletePromotionService from '../services/DeletePromotionService'
 
 class PromotionController {
   async create(req: Request, res: Response) {
@@ -62,6 +63,18 @@ class PromotionController {
     const { id } = FindSchema.parse(req.params)
 
     const promotion = await UpdatePromotionService.execute({ id, ...data })
+
+    return res.status(200).json(promotion)
+  }
+
+  async delete(req: Request, res: Response) {
+    const FindSchema = z.object({
+      id: z.string().cuid().nonempty(),
+    })
+
+    const { id } = FindSchema.parse(req.params)
+
+    const promotion = await DeletePromotionService.execute({ id })
 
     return res.status(200).json(promotion)
   }
