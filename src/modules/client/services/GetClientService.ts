@@ -5,7 +5,7 @@ interface IRequest {
   id: string
 }
 
-class ShowClientService {
+class GetClientService {
   async execute({ id }: IRequest) {
     const clientAlreadyExists = await prisma.client.findUnique({
       where: {
@@ -21,4 +21,4 @@ class ShowClientService {
   }
 }
 
-export default new ShowClientService()
+export default new GetClientService()

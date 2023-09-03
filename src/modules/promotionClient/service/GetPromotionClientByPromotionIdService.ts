@@ -17,7 +17,7 @@ class GetPromotionClientByPromotionIdService {
       },
     })
 
-    if (!promotionAlreadyExists) {
+    if (promotionAlreadyExists.length === 0) {
       throw new AppError('Promotion not found', 404)
     }
 

@@ -1,10 +1,10 @@
 import { Request, Response } from 'express'
 import { z } from 'zod'
 import CreateClientService from '../services/CreateClientService'
-import GetClienteService from '../services/GetClienteService'
 import UpdateClientService from '../services/UpdateClientService'
 import DeleteClientService from '../services/DeleteClientService'
 import ListClientService from '../services/ListClientService'
+import GetClientService from '../services/GetClientService'
 
 class ClientController {
   async index(req: Request, res: Response) {
@@ -39,7 +39,7 @@ class ClientController {
 
     const { id } = ClientSchema.parse(req.params)
 
-    const client = await GetClienteService.execute({ id })
+    const client = await GetClientService.execute({ id })
 
     return res.status(200).json(client)
   }
