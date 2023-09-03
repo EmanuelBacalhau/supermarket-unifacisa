@@ -5,6 +5,7 @@ import GetProductService from '../services/GetProductService'
 import UpdateProductService from '../services/UpdateProductService'
 import DeleteProductService from '../services/DeleteProductService'
 import ListProductService from '../services/ListProductService'
+import DiscountByCategoryService from '../services/DiscountByCategoryService'
 
 class ProductController {
   async index(req: Request, res: Response) {
@@ -86,6 +87,27 @@ class ProductController {
     const product = await DeleteProductService.execute({ id })
 
     return res.status(200).json(product)
+  }
+
+  async discount(req: Request, res: Response) {
+    const DiscountSchema = z.object({
+      percentage: z.number().nonnegative(),
+    })
+
+    const FindSchema = z.object({
+      categoryId: z.string().cuid().nonempty(),
+    })
+
+    const { categoryId } = FindSchema.parse(req.params)
+
+    const { percentage } = DiscountSchema.parse(req.body)
+
+    const productsWithDiscount = await DiscountByCategoryService.execute({
+      categoryId,
+      percentage,
+    })
+
+    return res.status(200).json(productsWithDiscount)
   }
 }
 
