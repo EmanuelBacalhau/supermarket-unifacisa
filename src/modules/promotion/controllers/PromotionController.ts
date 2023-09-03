@@ -30,7 +30,7 @@ class PromotionController {
 
     const promotion = await CreatePromotionService.execute(data)
 
-    return res.status(200).json(promotion)
+    return res.status(201).json(promotion)
   }
 
   async show(req: Request, res: Response) {

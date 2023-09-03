@@ -28,7 +28,7 @@ class OrderController {
       amount,
     })
 
-    return res.status(200).json(order)
+    return res.status(201).json(order)
   }
 
   async show(req: Request, res: Response) {
