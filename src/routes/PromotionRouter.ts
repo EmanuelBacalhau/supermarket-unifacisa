@@ -13,6 +13,7 @@ class PromotionRouter {
     this.router.post('/promotions/register', PromotionController.create)
     this.router.get('/promotions/:id', PromotionController.show)
     this.router.put('/promotions/:id', PromotionController.update)
+    this.router.delete('/promotions/:id', PromotionController.delete)
   }
 
   public get getRouter() {
