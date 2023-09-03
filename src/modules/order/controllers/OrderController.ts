@@ -4,8 +4,15 @@ import { Request, Response } from 'express'
 import GetOrderService from '../services/GetOrderService'
 import UpdateOrderService from '../services/UpdateOrderService'
 import DeleteOrderService from '../services/DeleteOrderService'
+import ListOrderService from '../services/ListOrderService'
 
 class OrderController {
+  async index(req: Request, res: Response) {
+    const orders = await ListOrderService.execute()
+
+    return res.status(200).json(orders)
+  }
+
   async create(req: Request, res: Response) {
     const OrderSchema = z.object({
       productId: z.string().cuid().nonempty(),
