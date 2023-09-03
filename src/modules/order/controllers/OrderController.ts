@@ -2,6 +2,7 @@ import { z } from 'zod'
 import CreateOrderService from '../services/CreateOrderService'
 import { Request, Response } from 'express'
 import GetOrderService from '../services/GetOrderService'
+import UpdateOrderService from '../services/UpdateOrderService'
 
 class OrderController {
   async create(req: Request, res: Response) {
@@ -30,6 +31,24 @@ class OrderController {
     const { id } = FindSchema.parse(req.params)
 
     const order = await GetOrderService.execute({ id })
+
+    return res.status(200).json(order)
+  }
+
+  async update(req: Request, res: Response) {
+    const FindSchema = z.object({
+      id: z.string().cuid(),
+    })
+
+    const OrderSchema = z.object({
+      productId: z.string().cuid(),
+      clientId: z.string().cuid(),
+    })
+
+    const { id } = FindSchema.parse(req.params)
+    const { productId, clientId } = OrderSchema.parse(req.body)
+
+    const order = await UpdateOrderService.execute({ id, productId, clientId })
 
     return res.status(200).json(order)
   }
