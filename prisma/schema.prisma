@@ -29,7 +29,7 @@ model Client {
   password String
 
   orders     Order[]
-  promotions PromotionUser[]
+  promotions PromotionClient[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
@@ -61,7 +61,7 @@ model Product {
   updatedAt         DateTime @default(now()) @updatedAt @map("updated_at")
 
   orders     Order[]
-  promotions PromotionUser[]
+  promotions PromotionClient[]
 
   category Category @relation(fields: [categoryId], references: [id])
 
@@ -82,13 +82,24 @@ model Order {
   @@map("orders")
 }
 
-model PromotionUser {
+model Promotion {
   id          String   @id @default(cuid()) @map("_id")
   name        String?
-  percentagem Int
+  percentage  Int
   startDate   DateTime
   endDate     DateTime
 
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  promotionsClient PromotionClient[]
+
+  @@map("promotions")
+}
+
+model PromotionClient {
+  id          String   @id @default(cuid()) @map("_id")
+  promotionId String @map("promotion_id")
   productId String @map("product_id")
   clientId  String @map("client_id")
 
@@ -97,6 +108,7 @@ model PromotionUser {
 
   client  Client  @relation(fields: [clientId], references: [id])
   product Product @relation(fields: [productId], references: [id])
+  promotion Promotion @relation(fields: [promotionId], references: [id])
 
   @@map("promotions_to_users")
 }
