@@ -3,8 +3,18 @@ import { z } from 'zod'
 import CreatePromotionClientService from '../service/CreatePromotionClientService'
 import DeletePromotionClientService from '../service/DeletePromotionClientService'
 import GetPromotionClientByPromotionIdService from '../service/GetPromotionClientByPromotionIdService'
+import ListPromotionClientService from '../service/ListPromotionClientService'
 
 class PromotionClientController {
+  async index(req: Request, res: Response) {
+    const userId = req.userId
+
+    const promotions = await ListPromotionClientService.execute({
+      clientId: userId,
+    })
+    return res.status(200).json(promotions)
+  }
+
   async findByPromotionId(req: Request, res: Response) {
     const FindSchema = z.object({
       promotionId: z.string().cuid().nonempty(),
@@ -22,7 +32,7 @@ class PromotionClientController {
 
   async create(req: Request, res: Response) {
     const PromotionClientSchema = z.object({
-      productIds: z.array(z.string().cuid().nonempty()),
+      categoryId: z.string().cuid().nonempty(),
       clientId: z.string().cuid().nonempty(),
       promotionId: z.string().cuid().nonempty(),
     })
