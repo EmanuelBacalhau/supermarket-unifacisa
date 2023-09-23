@@ -1,4 +1,5 @@
 import express, { Application, NextFunction, Request, Response } from 'express'
+import cors from 'cors'
 import 'express-async-errors'
 
 import { AppError } from './errors/AppError'
@@ -17,6 +18,7 @@ class App {
 
   constructor() {
     this.app = express()
+    this.app.use(cors())
     this.app.use(express.json())
     this.setupRouter()
     this.app.use(this.errorHandling)
