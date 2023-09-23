@@ -60,6 +60,7 @@ class AuthService {
       })
 
       return {
+        id: user.id,
         token,
       }
     }
