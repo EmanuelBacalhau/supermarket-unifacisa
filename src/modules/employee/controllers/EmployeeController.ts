@@ -33,11 +33,7 @@ class EmployeeController {
   }
 
   async show(req: Request, res: Response) {
-    const EmployeeSchema = z.object({
-      id: z.string(),
-    })
-
-    const { id } = EmployeeSchema.parse(req.params)
+    const id = req.userId
 
     const employee = await GetEmployeeService.execute({ id })
 

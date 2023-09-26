@@ -44,7 +44,7 @@ class AuthService {
       const verifyPassword = compareSync(password, user.password)
 
       if (!verifyPassword) {
-        throw new AppError('Client/Employee not found')
+        throw new AppError('Client/Employee not found', 401)
       }
 
       const JWT_SECRET = process.env.JWT_SECRET as string

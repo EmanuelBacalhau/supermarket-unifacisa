@@ -20,7 +20,7 @@ class EmployeeRouter {
     )
     this.router.post('/employees/register', EmployeeController.create)
     this.router.get(
-      '/employees/:id',
+      '/employees/me',
       isAuthenticate,
       verifyEmployee,
       EmployeeController.show,
