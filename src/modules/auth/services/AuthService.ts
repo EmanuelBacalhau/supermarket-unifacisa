@@ -9,60 +9,38 @@ interface IRequest {
   password: string
 }
 
-interface VerifyUser {
-  user: Client | Employee
-  password: string
-}
-
 class AuthService {
   async execute({ email, password }: IRequest) {
-    const client = await prisma.client.findUnique({
-      where: {
-        email,
-      },
-    })
-
-    if (client) {
-      return this.verifyUser({ user: client, password })
-    }
-
     const employee = await prisma.employee.findUnique({
       where: {
         email,
       },
     })
 
-    if (employee) {
-      return this.verifyUser({ user: employee, password })
+    if (!employee) {
+      throw new AppError('Client/Employee not found', 401)
     }
 
-    throw new AppError('Client/Employee not found', 401)
-  }
+    const decryptedPassword = compareSync(password, employee?.password)
 
-  private verifyUser({ user, password }: VerifyUser) {
-    if (user) {
-      const verifyPassword = compareSync(password, user.password)
+    if (!decryptedPassword) {
+      throw new AppError('Client/Employee not found', 401)
+    }
 
-      if (!verifyPassword) {
-        throw new AppError('Client/Employee not found', 401)
-      }
+    const JWT_SECRET = process.env.JWT_SECRET as string
 
-      const JWT_SECRET = process.env.JWT_SECRET as string
+    const payload = {
+      id: employee.id,
+      role: employee.role,
+    }
 
-      const payload = {
-        id: user.id,
-        role: user.role,
-      }
+    const token = sign(payload, JWT_SECRET, {
+      expiresIn: '1d',
+      subject: employee.id,
+    })
 
-      const token = sign(payload, JWT_SECRET, {
-        expiresIn: '1d',
-        subject: user.id,
-      })
-
-      return {
-        id: user.id,
-        token,
-      }
+    return {
+      token,
     }
   }
 }
