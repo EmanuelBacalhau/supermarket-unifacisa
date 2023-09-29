@@ -12,6 +12,7 @@ import EmployeeRouter from './routes/EmployeeRouter'
 import PromotionRouter from './routes/PromotionRouter'
 import PromotionClientRouter from './routes/PromotionClientRouter'
 import AuthRouter from './routes/AuthRouter'
+import path from 'path'
 
 class App {
   private app: Application
@@ -25,6 +26,10 @@ class App {
   }
 
   private setupRouter() {
+    this.app.use(
+      '/api/products',
+      express.static(path.resolve(__dirname, '../uploads')),
+    )
     this.app.use('/api', [
       EmployeeRouter.getRouter,
       ClientRouter.getRouter,
