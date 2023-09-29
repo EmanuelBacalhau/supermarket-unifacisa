@@ -2,6 +2,7 @@ import { Router } from 'express'
 import ProductController from '../modules/product/controllers/ProductController'
 import { isAuthenticate } from '../middleware/isAuthenticate'
 import { verifyEmployee } from '../middleware/verifyEmployee'
+import { upload } from '../config/setupMulter'
 
 class ProductRouter {
   private router: Router
@@ -17,6 +18,7 @@ class ProductRouter {
       '/products/register',
       isAuthenticate,
       verifyEmployee,
+      upload.single('image'),
       ProductController.create,
     )
     this.router.get('/products/:id', isAuthenticate, ProductController.show)

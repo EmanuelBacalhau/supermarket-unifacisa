@@ -52,10 +52,11 @@ model Category {
 
 model Product {
   id                String   @id @default(cuid()) @map("_id")
+  imageUrl          String
   name              String
   price             Float
   description       String
-  amount Int
+  amount            Int
   categoryId        String   @map("category_id")
   barCode           String   @unique @map("bar_code")
   manufacturingDate DateTime @map("manufacturing_date")

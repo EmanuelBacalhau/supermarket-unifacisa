@@ -6,6 +6,7 @@ import UpdateProductService from '../services/UpdateProductService'
 import DeleteProductService from '../services/DeleteProductService'
 import ListProductService from '../services/ListProductService'
 import DiscountByCategoryService from '../services/DiscountByCategoryService'
+import { AppError } from '../../../errors/AppError'
 
 class ProductController {
   async index(req: Request, res: Response) {
@@ -17,10 +18,10 @@ class ProductController {
     const ProductSchema = z.object({
       name: z.string().nonempty(),
       description: z.string().nonempty(),
-      price: z.number().nonnegative(),
+      price: z.string().transform((value) => Number(value)),
       categoryId: z.string().cuid(),
       barCode: z.string().nonempty(),
-      amount: z.number().nonnegative(),
+      amount: z.string().transform((value) => Number(value)),
       manufacturingDate: z
         .string()
         .nonempty()
@@ -31,9 +32,18 @@ class ProductController {
         .transform((element) => new Date(element)),
     })
 
+    if (!req.file) {
+      throw new Error('Image is required')
+    }
+
     const data = ProductSchema.parse(req.body)
 
-    const product = await CreateProductService.execute(data)
+    const { filename: imageUrl } = req.file
+
+    const product = await CreateProductService.execute({
+      imageUrl,
+      ...data,
+    })
 
     return res.status(201).json(product)
   }

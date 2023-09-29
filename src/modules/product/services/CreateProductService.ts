@@ -2,6 +2,7 @@ import prisma from '../../../config/Prisma'
 import { AppError } from '../../../errors/AppError'
 
 interface IRequest {
+  imageUrl: string
   name: string
   price: number
   amount: number
@@ -14,6 +15,7 @@ interface IRequest {
 
 class CreateProductService {
   async execute({
+    imageUrl,
     name,
     price,
     amount,
@@ -35,6 +37,7 @@ class CreateProductService {
 
     const product = await prisma.product.create({
       data: {
+        imageUrl,
         name,
         price,
         amount,
