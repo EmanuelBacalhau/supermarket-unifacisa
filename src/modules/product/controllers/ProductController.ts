@@ -33,7 +33,7 @@ class ProductController {
     })
 
     if (!req.file) {
-      throw new AppError('Image is required')
+      throw new AppError('Image is required', 422)
     }
 
     const data = ProductSchema.parse(req.body)
