@@ -89,7 +89,7 @@
 ##### -> Rota pertecente a atualizar o funcionário
 ##### -> Será usado: id, (name, birthday, cpf, email, password): são opcionais
 <img src="/public/Employee/Find employee/Query.png">
-<img src="/public/Employee/Update employee/Body.png">
+<img src="/public/Employee/Find employee/Body.png">
 
 #### DELETE /api/employees/:id
 ##### -> Rota pertecente ao funcionário para deletar sua própria conta
