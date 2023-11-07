@@ -2,7 +2,6 @@ import { compareSync } from 'bcryptjs'
 import prisma from '../../../config/Prisma'
 import { AppError } from '../../../errors/AppError'
 import { sign } from 'jsonwebtoken'
-import { Client, Employee } from '@prisma/client'
 
 interface IRequest {
   email: string
@@ -10,7 +9,7 @@ interface IRequest {
 }
 
 class AuthService {
-  async execute({ email, password }: IRequest) {
+  async loginEmployee({ email, password }: IRequest) {
     const employee = await prisma.employee.findUnique({
       where: {
         email,
@@ -42,6 +41,37 @@ class AuthService {
     return {
       token,
     }
+  }
+
+  async loginClient({ email, password }: IRequest) {
+    const client = await prisma.client.findUnique({
+      where: {
+        email,
+      },
+    })
+
+    if (!client) {
+      throw new AppError('Client/Employee not found', 401)
+    }
+
+    const decryptedPassword = compareSync(password, client.password)
+
+    if (!decryptedPassword) {
+      throw new AppError('Client/Employee not found', 401)
+    }
+
+    const payload = {
+      id: client.id,
+    }
+
+    const JWT_SECRET = process.env.JWT_SECRET as string
+
+    const token = sign(payload, JWT_SECRET, {
+      expiresIn: '7d',
+      subject: client.id,
+    })
+
+    return { token }
   }
 }
 

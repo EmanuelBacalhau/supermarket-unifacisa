@@ -25,7 +25,7 @@ class CreateClientService {
     })
 
     if (userByCpf || userByEmail) {
-      throw new AppError('Employee already exists', 409)
+      throw new AppError('Client already exists', 409)
     }
 
     const passwordHash = hashSync(password, 16)

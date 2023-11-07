@@ -10,7 +10,8 @@ class AuthRouter {
   }
 
   private setup() {
-    this.router.post('/auth', AuthController.auth)
+    this.router.post('/auth/employees', AuthController.authEmployee)
+    this.router.post('/auth/clients', AuthController.authClient)
   }
 
   public get getRouter() {
