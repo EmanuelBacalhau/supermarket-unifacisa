@@ -7,10 +7,8 @@ import { ZodError } from 'zod'
 import ClientRouter from './routes/ClientRouter'
 import CategoryRouter from './routes/CategoryRouter'
 import ProductRouter from './routes/ProductRouter'
-import OrderRouter from './routes/OrderRouter'
 import EmployeeRouter from './routes/EmployeeRouter'
 import PromotionRouter from './routes/PromotionRouter'
-import PromotionClientRouter from './routes/PromotionClientRouter'
 import AuthRouter from './routes/AuthRouter'
 import path from 'path'
 
@@ -35,9 +33,7 @@ class App {
       ClientRouter.getRouter,
       CategoryRouter.getRouter,
       ProductRouter.getRouter,
-      OrderRouter.getRouter,
       PromotionRouter.getRouter,
-      PromotionClientRouter.getRouter,
       AuthRouter.getRouter,
     ])
   }
