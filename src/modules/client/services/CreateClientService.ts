@@ -40,6 +40,12 @@ class CreateClientService {
       },
     })
 
+    await prisma.cart.create({
+      data: {
+        clientId: user.id,
+      },
+    })
+
     return user
   }
 }
