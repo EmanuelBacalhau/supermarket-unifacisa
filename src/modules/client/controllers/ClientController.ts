@@ -54,13 +54,13 @@ class ClientController {
         .optional(),
       email: z.string().optional(),
       password: z.string().optional(),
+      oldPassword: z.string().optional(),
     })
 
     const { id } = FindSchema.parse(req.params)
 
-    const { name, cpf, birthday, email, password } = ClientSchema.parse(
-      req.body,
-    )
+    const { name, cpf, birthday, email, password, oldPassword } =
+      ClientSchema.parse(req.body)
 
     const client = await UpdateClientService.execute({
       id,
@@ -69,6 +69,7 @@ class ClientController {
       cpf,
       email,
       password,
+      oldPassword,
     })
 
     return res.status(200).json(client)

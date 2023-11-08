@@ -1,3 +1,4 @@
+import { compareSync, hashSync } from 'bcryptjs'
 import prisma from '../../../config/Prisma'
 import { AppError } from '../../../errors/AppError'
 
@@ -8,10 +9,19 @@ interface IRequest {
   cpf?: string
   email?: string
   password?: string
+  oldPassword?: string
 }
 
 class UpdateClientService {
-  async execute({ id, name, birthday, cpf, email, password }: IRequest) {
+  async execute({
+    id,
+    name,
+    birthday,
+    cpf,
+    email,
+    password,
+    oldPassword,
+  }: IRequest) {
     const clientAlreadyExists = await prisma.client.findUnique({
       where: {
         id,
@@ -22,7 +32,35 @@ class UpdateClientService {
       throw new AppError('Client not found', 404)
     }
 
-    const client = await prisma.client.update({
+    if (oldPassword) {
+      const checkOldPassword = compareSync(
+        oldPassword,
+        clientAlreadyExists.password,
+      )
+
+      if (!checkOldPassword) {
+        throw new AppError('Old passwords do not match', 409)
+      }
+
+      if (!password) {
+        throw new AppError('New password is required')
+      }
+
+      return await prisma.client.update({
+        where: {
+          id,
+        },
+        data: {
+          name,
+          birthday,
+          cpf,
+          email,
+          password: hashSync(password, 10),
+        },
+      })
+    }
+
+    return await prisma.client.update({
       where: {
         id,
       },
@@ -31,11 +69,8 @@ class UpdateClientService {
         birthday,
         cpf,
         email,
-        password,
       },
     })
-
-    return client
   }
 }
 
