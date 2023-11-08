@@ -33,11 +33,7 @@ class ClientController {
   }
 
   async show(req: Request, res: Response) {
-    const ClientSchema = z.object({
-      id: z.string().cuid(),
-    })
-
-    const { id } = ClientSchema.parse(req.params)
+    const id = req.userId
 
     const client = await GetClientService.execute({ id })
 

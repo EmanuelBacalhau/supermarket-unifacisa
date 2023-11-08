@@ -19,7 +19,7 @@ class ClientRouter {
       ClientController.index,
     )
     this.router.post('/clients/register', ClientController.create)
-    this.router.get('/clients/:id', isAuthenticate, ClientController.show)
+    this.router.get('/clients/details', isAuthenticate, ClientController.show)
     this.router.put('/clients/:id', isAuthenticate, ClientController.update)
     this.router.delete('/clients/:id', isAuthenticate, ClientController.delete)
   }

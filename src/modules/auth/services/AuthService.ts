@@ -71,7 +71,14 @@ class AuthService {
       subject: client.id,
     })
 
-    return { token }
+    return {
+      client: {
+        id: client.id,
+        name: client.name,
+        email: client.email,
+      },
+      token,
+    }
   }
 }
 
