@@ -8,7 +8,6 @@ import ClientRouter from './routes/ClientRouter'
 import CategoryRouter from './routes/CategoryRouter'
 import ProductRouter from './routes/ProductRouter'
 import EmployeeRouter from './routes/EmployeeRouter'
-import PromotionRouter from './routes/PromotionRouter'
 import AuthRouter from './routes/AuthRouter'
 import path from 'path'
 
@@ -28,12 +27,12 @@ class App {
       '/api/products',
       express.static(path.resolve(__dirname, '../uploads')),
     )
+
     this.app.use('/api', [
       EmployeeRouter.getRouter,
       ClientRouter.getRouter,
       CategoryRouter.getRouter,
       ProductRouter.getRouter,
-      PromotionRouter.getRouter,
       AuthRouter.getRouter,
     ])
   }

@@ -7,11 +7,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-//  * Falta criar os controller e services das tabelas: (Cart(não presico criar, pois um usuário não pode deletar seu carrinho, por ser unico), Order(criar), OrdersHasProducts(criar - analisar))
+//  * Falta criar os controller e services das tabelas:
 //  *  Cart = não presico criar, pois um usuário não pode deletar seu carrinho, por ser unico
-//  *  Order = criar
-//  *  OrdersHasProducts = criar - analisar
-
+//  *  Order = Caso n existir, criar e adicionar o produto. Caso existir uma order, adicionar o produto ao pedido
+//  *  OrdersHasProducts = tabela intermediaria para relacionar o produto sua order e a quantidade de pedidos
 model Employee {
   id        String   @id @default(cuid()) @map("_id")
   name      String
@@ -35,8 +34,7 @@ model Client {
   password String
   role     String?  @default("CLIENT")
 
-  cart       Cart?
-  promotions PromotionClient[]
+  cart Cart?
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
@@ -70,7 +68,6 @@ model Product {
   updatedAt         DateTime @default(now()) @updatedAt @map("updated_at")
 
   ordersHasProducts OrdersHasProducts[]
-  promotions        PromotionClient[]
 
   category Category @relation(fields: [categoryId], references: [id])
 
@@ -78,11 +75,10 @@ model Product {
 }
 
 model Cart {
-  id         String @id @default(cuid()) @map("_id")
-  valueTotal Float  @default(0.0) @map("value_total")
-  clientId   String @unique @map("client_id")
+  id       String @id @default(cuid()) @map("_id")
+  clientId String @unique @map("client_id")
 
-  order Order[]
+  orders Order[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
@@ -93,10 +89,11 @@ model Cart {
 }
 
 model Order {
-  id        String              @id @default(cuid()) @map("_id")
-  cartId    String              @map("cart_id")
-  finalized Boolean             @default(false)
-  products  OrdersHasProducts[]
+  id        String  @id @default(cuid()) @map("_id")
+  cartId    String  @map("cart_id")
+  finalized Boolean @default(false)
+
+  products OrdersHasProducts[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
@@ -119,35 +116,4 @@ model OrdersHasProducts {
   order   Order   @relation(fields: [orderId], references: [id])
 
   @@map("orders_has_prodcuts")
-}
-
-model Promotion {
-  id         String   @id @default(cuid()) @map("_id")
-  name       String?
-  percentage Int
-  startDate  DateTime
-  endDate    DateTime
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
-
-  promotionsClient PromotionClient[]
-
-  @@map("promotions")
-}
-
-model PromotionClient {
-  id          String @id @default(cuid()) @map("_id")
-  promotionId String @map("promotion_id")
-  productId   String @map("product_id")
-  clientId    String @map("client_id")
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
-
-  client    Client    @relation(fields: [clientId], references: [id])
-  product   Product   @relation(fields: [productId], references: [id])
-  promotion Promotion @relation(fields: [promotionId], references: [id])
-
-  @@map("promotions_to_clients")
 }

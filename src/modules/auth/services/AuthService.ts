@@ -48,6 +48,17 @@ class AuthService {
       where: {
         email,
       },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        password: true,
+        cart: {
+          select: {
+            id: true,
+          },
+        },
+      },
     })
 
     if (!client) {
@@ -76,6 +87,7 @@ class AuthService {
         id: client.id,
         name: client.name,
         email: client.email,
+        cartId: client.cart?.id,
       },
       token,
     }
