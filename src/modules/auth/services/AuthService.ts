@@ -56,6 +56,14 @@ class AuthService {
         cart: {
           select: {
             id: true,
+            orders: {
+              select: {
+                id: true,
+              },
+              where: {
+                finalized: false,
+              },
+            },
           },
         },
       },
@@ -87,7 +95,7 @@ class AuthService {
         id: client.id,
         name: client.name,
         email: client.email,
-        cartId: client.cart?.id,
+        orderId: client.cart?.orders[0].id,
       },
       token,
     }

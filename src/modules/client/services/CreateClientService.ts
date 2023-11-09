@@ -40,9 +40,15 @@ class CreateClientService {
       },
     })
 
-    await prisma.cart.create({
+    const cart = await prisma.cart.create({
       data: {
         clientId: user.id,
+      },
+    })
+
+    await prisma.order.create({
+      data: {
+        cartId: cart.id,
       },
     })
 

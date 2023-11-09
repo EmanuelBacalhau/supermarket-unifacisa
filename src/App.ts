@@ -10,6 +10,7 @@ import ProductRouter from './routes/ProductRouter'
 import EmployeeRouter from './routes/EmployeeRouter'
 import AuthRouter from './routes/AuthRouter'
 import path from 'path'
+import OrderRouter from './routes/OrderRouter'
 
 class App {
   private app: Application
@@ -34,6 +35,7 @@ class App {
       CategoryRouter.getRouter,
       ProductRouter.getRouter,
       AuthRouter.getRouter,
+      OrderRouter.getRouter,
     ])
   }
 
