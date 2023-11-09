@@ -22,7 +22,7 @@ class AddAmountOrderProductService {
         id,
       },
       data: {
-        amount: isOrderProductExists.amount + 1,
+        amount: isOrderProductExists.amount - 1,
       },
     })
   }

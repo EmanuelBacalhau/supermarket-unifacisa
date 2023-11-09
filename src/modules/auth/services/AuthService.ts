@@ -91,12 +91,10 @@ class AuthService {
     })
 
     return {
-      client: {
-        id: client.id,
-        name: client.name,
-        email: client.email,
-        orderId: client.cart?.orders[0].id,
-      },
+      id: client.id,
+      name: client.name,
+      email: client.email,
+      orderId: client.cart?.orders[0].id,
       token,
     }
   }
