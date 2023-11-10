@@ -3,10 +3,11 @@ import { AppError } from '../../../errors/AppError'
 
 interface IRequest {
   orderId: string
+  valueTotal: number
 }
 
 class FinishAndCreateOrder {
-  async execute({ orderId }: IRequest) {
+  async execute({ orderId, valueTotal }: IRequest) {
     const isOrderExists = await prisma.order.findUnique({
       where: {
         id: orderId,
@@ -22,6 +23,7 @@ class FinishAndCreateOrder {
         id: orderId,
       },
       data: {
+        valueTotal,
         finalized: true,
       },
     })

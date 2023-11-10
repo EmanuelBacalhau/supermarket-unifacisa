@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import addAmountOrderProductService from '../services/add-amount-order-product.service'
 import { z } from 'zod'
+import removeAmountOrderProductService from '../services/remove-amount-order-product.service'
 
 class RemoveAmountOrderProductController {
   async handle(req: Request, res: Response) {
@@ -10,7 +10,7 @@ class RemoveAmountOrderProductController {
 
     const { id } = addAmountSchema.parse(req.params)
 
-    await addAmountOrderProductService.execute({ id })
+    await removeAmountOrderProductService.execute({ id })
 
     return res.status(204).end()
   }

@@ -4,13 +4,25 @@ import { z } from 'zod'
 
 class FinishOrderAndCreateOrder {
   async handle(req: Request, res: Response) {
-    const finishOrder = z.object({
+    const getOrderSchema = z.object({
       orderId: z.string().cuid(),
     })
 
-    const { orderId } = finishOrder.parse(req.params)
+    const finishOrderSchema = z.object({
+      valueTotal: z
+        .string()
+        .nonempty()
+        .transform((value) => +value),
+    })
 
-    const response = await finishAndCreateOrderOrderService.execute({ orderId })
+    const { valueTotal } = finishOrderSchema.parse(req.body)
+
+    const { orderId } = getOrderSchema.parse(req.params)
+
+    const response = await finishAndCreateOrderOrderService.execute({
+      orderId,
+      valueTotal,
+    })
 
     return res.status(200).json(response)
   }

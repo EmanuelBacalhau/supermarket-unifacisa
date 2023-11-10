@@ -89,9 +89,10 @@ model Cart {
 }
 
 model Order {
-  id        String  @id @default(cuid()) @map("_id")
-  cartId    String  @map("cart_id")
-  finalized Boolean @default(false)
+  id         String  @id @default(cuid()) @map("_id")
+  cartId     String  @map("cart_id")
+  finalized  Boolean @default(false)
+  valueTotal Float   @default(0.0)
 
   products OrdersHasProducts[]
 

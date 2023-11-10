@@ -32,7 +32,7 @@ class OrderDetailsService {
       throw new AppError('Order not found', 404)
     }
 
-    return isOrderExists
+    return isOrderExists.products
   }
 }
 

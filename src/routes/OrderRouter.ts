@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import finishAndCreateOrderOrderController from '../modules/order/controllers/finishAndCreateOrder-order.controller'
 import orderDetailsController from '../modules/order/controllers/order-details.controller'
+import { isAuthenticate } from '../middleware/isAuthenticate'
 
 class OrderRouter {
   private router: Router
@@ -11,9 +12,14 @@ class OrderRouter {
   }
 
   private setup() {
-    this.router.get('/orders/:orderId/details', orderDetailsController.handle)
+    this.router.get(
+      '/orders/:orderId/details',
+      isAuthenticate,
+      orderDetailsController.handle,
+    )
     this.router.put(
-      '/orders/finish/:orderId',
+      '/orders/:orderId/finish',
+      isAuthenticate,
       finishAndCreateOrderOrderController.handle,
     )
   }

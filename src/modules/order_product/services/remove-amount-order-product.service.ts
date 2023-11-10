@@ -17,14 +17,16 @@ class AddAmountOrderProductService {
       throw new AppError('OrderProduct not found', 404)
     }
 
-    await prisma.ordersHasProducts.update({
-      where: {
-        id,
-      },
-      data: {
-        amount: isOrderProductExists.amount - 1,
-      },
-    })
+    if (isOrderProductExists.amount > 1) {
+      await prisma.ordersHasProducts.update({
+        where: {
+          id,
+        },
+        data: {
+          amount: isOrderProductExists.amount - 1,
+        },
+      })
+    }
   }
 }
 
