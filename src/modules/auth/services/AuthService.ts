@@ -95,6 +95,7 @@ class AuthService {
       name: client.name,
       email: client.email,
       orderId: client.cart?.orders[0].id,
+      cartId: client.cart?.id,
       token,
     }
   }
