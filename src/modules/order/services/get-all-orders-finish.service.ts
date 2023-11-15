@@ -13,6 +13,7 @@ class GetAllOrderFinishOrderService {
       },
       select: {
         id: true,
+        valueTotal: true,
         finalized: true,
         updatedAt: true,
       },

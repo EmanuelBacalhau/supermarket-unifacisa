@@ -12,6 +12,7 @@ class OrderDetailsService {
         id: orderId,
       },
       select: {
+        id: true,
         products: {
           select: {
             id: true,
@@ -32,7 +33,7 @@ class OrderDetailsService {
       throw new AppError('Order not found', 404)
     }
 
-    return isOrderExists.products
+    return { orderId: isOrderExists.id, products: isOrderExists.products }
   }
 }
 
