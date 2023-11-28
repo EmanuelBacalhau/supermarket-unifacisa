@@ -166,3 +166,5 @@ dist
 /uploads/*.jpeg
 /uploads/*.png
 /uploads/*.svg
+
+.env

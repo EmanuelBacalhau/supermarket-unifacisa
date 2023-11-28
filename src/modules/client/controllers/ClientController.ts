@@ -5,6 +5,9 @@ import UpdateClientService from '../services/UpdateClientService'
 import DeleteClientService from '../services/DeleteClientService'
 import ListClientService from '../services/ListClientService'
 import GetClientService from '../services/GetClientService'
+import { AppError } from '../../../errors/AppError'
+import { getFileStream, uploadFile } from '../../../config/S3'
+import SetAvatarClientService from '../services/SetAvatarClientService'
 
 class ClientController {
   async index(req: Request, res: Response) {
@@ -85,6 +88,35 @@ class ClientController {
     const client = await DeleteClientService.execute({ id })
 
     return res.status(200).json(client)
+  }
+
+  async setAvatar(req: Request, res: Response) {
+    const id = req.userId
+
+    if (!req.file) {
+      throw new AppError('Avatar is required', 422)
+    }
+
+    const avatar = req.file.filename
+
+    const response = await uploadFile(req.file, avatar)
+
+    const avatarUser = await SetAvatarClientService.execute({
+      id,
+      avatar: response.Key,
+    })
+
+    res.status(201).json(avatarUser.avatar)
+  }
+
+  async getAvatar(req: Request, res: Response) {
+    const id = req.userId
+
+    const response = await GetClientService.execute({ id })
+
+    const avatar = getFileStream(response.avatar as string)
+
+    return avatar.pipe(res)
   }
 }
 

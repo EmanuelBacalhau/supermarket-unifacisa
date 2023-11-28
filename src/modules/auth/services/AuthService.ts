@@ -53,6 +53,7 @@ class AuthService {
         name: true,
         email: true,
         password: true,
+        avatar: true,
         cart: {
           select: {
             id: true,
@@ -96,6 +97,7 @@ class AuthService {
       email: client.email,
       orderId: client.cart?.orders[0].id,
       cartId: client.cart?.id,
+      avatar: `${process.env.URL_BUCKET_ACCESS}/${client.avatar}`,
       token,
     }
   }
