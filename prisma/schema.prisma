@@ -35,7 +35,8 @@ model Client {
   password String
   role     String?  @default("CLIENT")
 
-  cart Cart?
+  cart             Cart?
+  productFavorites Favorite[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
@@ -70,9 +71,23 @@ model Product {
 
   ordersHasProducts OrdersHasProducts[]
 
+  users Favorite[]
+
   category Category @relation(fields: [categoryId], references: [id])
 
   @@map("products")
+}
+
+model Favorite {
+  id        String @id @default(cuid()) @map("_id")
+  clientId  String @map("client_id")
+  productId String @map("product_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  product Product @relation(fields: [productId], references: [id])
+  client  Client  @relation(fields: [clientId], references: [id])
 }
 
 model Cart {
