@@ -12,6 +12,7 @@ import AuthRouter from './routes/AuthRouter'
 import path from 'path'
 import OrderRouter from './routes/OrderRouter'
 import OrderProductRouter from './routes/OrderProductRouter'
+import FavoriteRouter from './routes/FavoriteRouter'
 
 class App {
   private app: Application
@@ -38,6 +39,7 @@ class App {
       AuthRouter.getRouter,
       OrderRouter.getRouter,
       OrderProductRouter.getRouter,
+      FavoriteRouter.getRouter,
     ])
   }
 
