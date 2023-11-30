@@ -10,6 +10,17 @@ class ListAllFavoriteService {
       where: {
         clientId,
       },
+      select: {
+        id: true,
+        product: {
+          select: {
+            id: true,
+            name: true,
+            price: true,
+            imageUrl: true,
+          },
+        },
+      },
     })
   }
 }
