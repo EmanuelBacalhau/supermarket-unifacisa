@@ -26,7 +26,10 @@ const server = createServer(app)
 
 const io = new Server(server, { cors: { origin: '*' } })
 
-app.use('/api/products', express.static(path.resolve(__dirname, '../uploads')))
+app.use(
+  '/api/products',
+  express.static(path.resolve(__dirname, '../uploads/images')),
+)
 
 app.use('/api', [
   EmployeeRouter.getRouter,

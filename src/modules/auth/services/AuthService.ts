@@ -97,7 +97,7 @@ class AuthService {
       email: client.email,
       orderId: client.cart?.orders[0].id,
       cartId: client.cart?.id,
-      avatar: `${process.env.URL_BUCKET_ACCESS}/${client.avatar}`,
+      avatar: client.avatar,
       token,
     }
   }
