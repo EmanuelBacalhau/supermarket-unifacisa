@@ -1,4 +1,4 @@
-import express, { Application, NextFunction, Request, Response } from 'express'
+import express, { NextFunction, Request, Response } from 'express'
 import cors from 'cors'
 import 'express-async-errors'
 
@@ -13,67 +13,73 @@ import path from 'path'
 import OrderRouter from './routes/OrderRouter'
 import OrderProductRouter from './routes/OrderProductRouter'
 import FavoriteRouter from './routes/FavoriteRouter'
+import MessageRouter from './routes/MessageRouter'
+import { createServer } from 'http'
+import { Server } from 'socket.io'
+import prisma from './config/Prisma'
 
-class App {
-  private app: Application
+const app = express()
+app.use(cors())
+app.use(express.json())
 
-  constructor() {
-    this.app = express()
-    this.app.use(cors())
-    this.app.use(express.json())
-    this.setupRouter()
-    this.app.use(this.errorHandling)
-  }
+const server = createServer(app)
 
-  private setupRouter() {
-    this.app.use(
-      '/api/products',
-      express.static(path.resolve(__dirname, '../uploads')),
-    )
+const io = new Server(server, { cors: { origin: '*' } })
 
-    this.app.use('/api', [
-      EmployeeRouter.getRouter,
-      ClientRouter.getRouter,
-      CategoryRouter.getRouter,
-      ProductRouter.getRouter,
-      AuthRouter.getRouter,
-      OrderRouter.getRouter,
-      OrderProductRouter.getRouter,
-      FavoriteRouter.getRouter,
-    ])
-  }
+app.use('/api/products', express.static(path.resolve(__dirname, '../uploads')))
 
-  public listen() {
-    const PORT = Number(process.env.PORT) || 3333
-    this.app.listen(PORT, () => {
-      console.log('Server started!🚀')
+app.use('/api', [
+  EmployeeRouter.getRouter,
+  ClientRouter.getRouter,
+  CategoryRouter.getRouter,
+  ProductRouter.getRouter,
+  AuthRouter.getRouter,
+  OrderRouter.getRouter,
+  OrderProductRouter.getRouter,
+  FavoriteRouter.getRouter,
+  MessageRouter.getRouter,
+])
+
+app.use(errorHandling)
+
+async function errorHandling(
+  err: Error,
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  if (err instanceof AppError) {
+    return res.status(err.statusCode).json({
+      message: err.message,
     })
   }
 
-  private async errorHandling(
-    err: Error,
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
-    if (err instanceof AppError) {
-      return res.status(err.statusCode).json({
-        message: err.message,
-      })
-    }
-
-    if (err instanceof ZodError) {
-      return res.status(422).json({
-        status: 'error',
-        message: err.errors,
-      })
-    }
-
-    return res.status(500).json({
+  if (err instanceof ZodError) {
+    return res.status(422).json({
       status: 'error',
-      message: 'Internal server error',
+      message: err.errors,
     })
   }
+
+  return res.status(500).json({
+    status: 'error',
+    message: 'Internal server error',
+  })
 }
 
-export default new App()
+io.on('connection', (socket) => {
+  socket.on('send_message', async ({ content, userId }) => {
+    await prisma.message.create({
+      data: {
+        content,
+        clientId: userId,
+      },
+    })
+  })
+})
+
+const PORT = Number(process.env.PORT) || 3333
+
+server.listen(PORT, () => {
+  console.log('Server started!🚀')
+})

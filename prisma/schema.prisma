@@ -37,6 +37,7 @@ model Client {
 
   cart             Cart?
   productFavorites Favorite[]
+  messages         Message[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
@@ -133,4 +134,16 @@ model OrdersHasProducts {
   order   Order   @relation(fields: [orderId], references: [id])
 
   @@map("orders_has_prodcuts")
+}
+
+model Message {
+  id        String   @id @default(cuid()) @map("_id")
+  clientId  String   @map("client_id")
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+
+  client Client @relation(fields: [clientId], references: [id])
+
+  @@map("messages")
 }

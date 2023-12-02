@@ -23,14 +23,14 @@ class SetAvatarClientService {
         id,
       },
       data: {
-        avatar,
+        avatar: `${process.env.URL_BUCKET_ACCESS}/${avatar}`,
       },
       select: {
         avatar: true,
       },
     })
 
-    return { avatar: `${process.env.URL_BUCKET_ACCESS}/${user.avatar}` }
+    return { avatar: user.avatar }
   }
 }
 
